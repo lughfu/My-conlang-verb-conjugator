@@ -4,262 +4,184 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Asyewi Verb Conjugator</title>
-
-<link rel="manifest" href="manifest.json">
-
 <style>
 :root {
-    --bg1: linear-gradient(135deg, #ffb6c1, #ffe0f0);
-    --card: rgba(255, 255, 255, 0.95);
-    --text: #222;
-    --accent: #d94b8a;
-    --table-header: #f8c1d7;
-    --table-row-light: #fff0f5;
-    --table-row-dark: #ffe6f0;
+    --pink-gradient: linear-gradient(135deg, #e6a0b0, #ffc4d1);
+    --blue-gradient: linear-gradient(135deg, #0b1a2b, #1b3f5f);
+    --green-gradient: linear-gradient(135deg, #b0e6a0, #e6f8e0);
 }
-
-body.dark {
-    --bg1: linear-gradient(135deg, #0b1a2b, #1b3a50, #2c5364);
-    --card: rgba(25, 35, 50, 0.95);
-    --text: #eef6ff;
-    --accent: #7fdfff;
-    --table-header: #1b3a50;
-    --table-row-light: rgba(30, 50, 70, 0.8);
-    --table-row-dark: rgba(20, 35, 55, 0.9);
-}
-
 body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: system-ui, sans-serif;
-    background: var(--bg1);
-    color: var(--text);
-    transition: background 0.4s, color 0.4s;
+    margin:0; padding:0;
+    font-family: "Segoe UI", sans-serif;
+    background: var(--pink-gradient);
+    transition: background 0.5s;
 }
-
-.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 16px;
-}
-
-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 16px;
-}
-
-header h1 {
-    font-size: 1.6rem;
-    margin: 0;
-}
-
-header button {
-    align-self: flex-end;
-}
-
-button {
-    border: none;
-    border-radius: 999px;
-    padding: 10px 18px;
-    background: var(--accent);
-    color: white;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-button:hover {
-    transform: scale(1.05);
-}
-
-input {
-    width: 100%;
-    padding: 14px;
-    font-size: 1rem;
-    border-radius: 12px;
-    border: 1px solid rgba(0,0,0,0.1);
-    margin: 16px 0;
-    box-sizing: border-box;
-}
-
+.container { max-width:900px; margin:auto; padding:16px; }
+header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+h1 { margin:0; font-size:1.6rem; font-weight:bold; }
+button, select { border:none; border-radius:999px; padding:8px 12px; cursor:pointer; transition:0.2s; font-weight:bold; font-size:1rem; color:white;}
+input { padding:10px; font-size:1rem; border-radius:12px; border:1px solid rgba(0,0,0,0.1);
+width:160px; margin-right:8px; box-sizing:border-box; font-weight:bold; }
+.buttons { display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
 .card {
-    background: var(--card);
-    border-radius: 18px;
-    padding: 16px;
-    margin-top: 20px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-    transition: background 0.4s;
-    overflow-x: auto;
+    background: rgba(255,255,255,0.12);
+    border-radius:18px; padding:16px; margin-top:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255,255,255,0.2);
+    font-weight:bold;
+    position:relative;
 }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
-    min-width: 300px;
+.card::after{
+    content:""; position:absolute; top:0; left:0; width:100%; height:100%;
+    border-radius:18px; box-shadow:0 0 20px rgba(255,255,255,0.2); pointer-events:none;
 }
-
-th, td {
-    padding: 10px 8px;
-    text-align: center;
-    font-size: 1rem;
-}
-
-th {
-    background: var(--table-header);
-    color: white;
-    font-weight: 600;
-}
-
-tr:nth-child(even) {
-    background: var(--table-row-light);
-}
-tr:nth-child(odd) {
-    background: var(--table-row-dark);
-}
-
-.error {
-    color: crimson;
-    font-weight: bold;
-    margin-top: 16px;
-}
-
-@media (max-width: 600px) {
-    header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    header button {
-        align-self: flex-start;
-    }
-
-    h1 {
-        font-size: 1.4rem;
-    }
-
-    th, td {
-        font-size: 0.9rem;
-        padding: 6px;
-    }
-
-    button, input {
-        font-size: 0.95rem;
-        padding: 10px;
-    }
-
-    .card {
-        padding: 12px;
-    }
-}
+.card h3 { margin-top:0; font-weight:bold; }
+table { width:100%; border-collapse:collapse; margin-top:12px; border-radius:12px; overflow:hidden; font-weight:bold; }
+th, td { padding:8px; text-align:center; font-weight:bold; }
+th { background: rgba(255,255,255,0.25); color:#111; font-weight:bold; }
+tr:nth-child(even){background: rgba(255,255,255,0.05);}
+tr:nth-child(odd){background: rgba(255,255,255,0.02);}
+.error { color:crimson; font-weight:bold; margin-top:12px; }
 </style>
 </head>
-
 <body>
 <div class="container">
-
 <header>
     <h1>Asyewi Verb Conjugator</h1>
-    <button onclick="toggleMode()">🌙 / 🌸</button>
+    <button id="themeBtn">🌙 Theme</button>
 </header>
 
-<input id="verbInput" placeholder="Enter infinitive verb (e.g. kataba)">
-<button onclick="conjugate()">Conjugate</button>
+<div class="buttons">
+    <input id="verbInput" placeholder="Enter verb">
+    <button id="conjBtn">Conjugate</button>
+    <select id="forceMode">
+        <option value="auto">Auto Detect Root</option>
+        <option value="2">Force 2-letter root</option>
+        <option value="3">Force 3-letter root</option>
+    </select>
+</div>
+
+<div class="buttons">
+    <button id="randomBtn">Generate Random Verb</button>
+</div>
 
 <div id="output"></div>
-
 </div>
 
 <script>
 const VOWELS = "aeiou";
-const PRONOUNS = ["I", "You", "He", "She", "It", "We", "Y’all", "They"];
-const PREFIXES = {"I": "", "You": "y", "He": "t", "She": "t", "It": "w", "We": "n", "Y’all": "f", "They": "l"};
+const PRONOUNS = {"I":"","You":"y","He":"t","She":"t","It":"w","We":"n","Y’all":"f","They":"l"};
+const themes = ['pink','blue','green'];
+let currentTheme=0;
 
-function extractRoot(verb) {
-    const root = [...verb].filter(c => !VOWELS.includes(c));
-    if (root.length !== 2 && root.length !== 3) {
-        throw "Verb must have exactly 2 or 3 consonants.";
+// Theme switching
+document.getElementById("themeBtn").addEventListener("click",()=>{
+    currentTheme=(currentTheme+1)%themes.length;
+    const body=document.body;
+    if(currentTheme===0) body.style.background='var(--pink-gradient)';
+    else if(currentTheme===1) body.style.background='var(--blue-gradient)';
+    else body.style.background='var(--green-gradient)';
+    document.querySelectorAll('button,select').forEach(b=>{
+        if(currentTheme===0) b.style.background='#d94b8a';
+        else if(currentTheme===1) b.style.background='#7fdfff';
+        else b.style.background='#4d994d';
+        b.style.color='white';
+    });
+});
+
+// Root extraction
+function extractRoot(verb,force){
+    verb=verb.toLowerCase().trim();
+    let consonants = [...verb].filter(c=>!VOWELS.includes(c));
+    if(force==='2'){ 
+        if(consonants.length<2) throw "Not enough consonants for 2-letter root"; 
+        consonants=consonants.slice(0,2);
+    } else if(force==='3'){ 
+        if(consonants.length<3) throw "Not enough consonants for 3-letter root"; 
+        consonants=consonants.slice(0,3);
+    } else { 
+        if(consonants.length<2||consonants.length>3) throw "Verb must have 2 or 3 consonants"; 
     }
-    return root;
+    return consonants;
 }
 
-function baseForm(root, fem=false, tense="present") {
-    if (root.length === 3) {
-        const [c1,c2,c3] = root;
-        if (tense === "present") return `${c1}${fem?'i':'a'}${c2}${c3}${fem?'i':'a'}`;
-        if (tense === "past") return `${fem?'i':'a'}${c1}${c2}${fem?'i':'a'}${c3}`;
-        if (tense === "future") return `a${c1}${c2}i${c3}`;
-    } else {
-        const [c1,c2] = root;
-        if (tense === "present") return `${c1}${fem?'i':'a'}${c2}${fem?'i':'a'}`;
-        if (tense === "past") return `${fem?'i':'a'}${c1}${fem?'i':'a'}${c2}`;
-        if (tense === "future") return `a${c1}i${c2}`;
+// Base forms
+function baseForm(root,f,tense){
+    if(root.length===3){ const [c1,c2,c3]=root;
+        if(tense==='present') return `${c1}${f?'i':'a'}${c2}${c3}${f?'i':'a'}`;
+        if(tense==='past') return `${f?'i':'a'}${c1}${c2}${f?'i':'a'}${c3}`;
+        if(tense==='future') return `a${c1}${c2}i${c3}`;
+    } else { const [c1,c2]=root;
+        if(tense==='present') return `${c1}${f?'i':'a'}${c2}${f?'i':'a'}`;
+        if(tense==='past') return `${f?'i':'a'}${c1}${f?'i':'a'}${c2}`;
+        if(tense==='future') return `a${c1}i${c2}`;
     }
 }
 
-function buildTable(title, rows) {
-    let html = `<div class="card"><h3>${title}</h3><table>`;
-    html += "<tr><th>Pronoun</th><th>Form</th></tr>";
-    for (let [p, f] of rows) {
-        html += `<tr><td>${p}</td><td>${f}</td></tr>`;
-    }
-    html += "</table></div>";
+// Table builder
+function buildTable(title,rows){
+    let html=`<div class="card"><h3>${title}</h3><table>`;
+    html+="<tr><th>Pronoun</th><th>Form</th></tr>";
+    rows.forEach(([p,f])=>{html+=`<tr><td>${p}</td><td>${f}</td></tr>`});
+    html+="</table></div>";
     return html;
 }
 
-function conjugate() {
-    const out = document.getElementById("output");
-    out.innerHTML = "";
+// Main conjugation
+function conjugateVerb(){
+    const out=document.getElementById("output");
+    out.innerHTML='';
+    try{
+        const verb=document.getElementById("verbInput").value.trim().toLowerCase();
+        const force=document.getElementById("forceMode").value;
+        const root=extractRoot(verb,force);
 
-    try {
-        const verb = document.getElementById("verbInput").value.trim().toLowerCase();
-        const root = extractRoot(verb);
+        // Show infinitive & root correctly
+        out.innerHTML+=`<div class="card"><h3>Verb: ${verb}</h3><h3>Root: ${root.join("-")}</h3></div>`;
 
-        ["Masculine", "Feminine"].forEach((gender) => {
-            const fem = gender === "Feminine";
-
-            ["present", "past", "future"].forEach((tense) => {
-                const base = baseForm(root, fem, tense);
-                let rows = [];
-
-                PRONOUNS.forEach((p) => {
-                    let form;
-                    if (tense === "present") {
-                        form = base + PREFIXES[p];
-                    } else if (tense === "past") {
-                        form = (p === "I") ? base : PREFIXES[p] + base;
-                    } else { // future
-                        form = PREFIXES[p] + base;
-                    }
-
-                    if (gender === "Masculine" && p === "She") form = "-";
-                    if (gender === "Feminine" && p === "He") form = "-";
-
-                    rows.push([p, form]);
-                });
-
-                const title = tense.charAt(0).toUpperCase() + tense.slice(1) + ` (${gender})`;
-                out.innerHTML += buildTable(title, rows);
-            });
+        ["Masculine","Feminine"].forEach((g,i)=>{
+            let rows=[]; const base=baseForm(root,i===1,'present');
+            for(let p in PRONOUNS){
+                if((g==='Masculine'&&p==='She')||(g==='Feminine'&&p==='He')) rows.push([p,'']);
+                else rows.push([p,base+PRONOUNS[p]]);
+            }
+            out.innerHTML+=buildTable(`Present (${g})`,rows);
         });
 
-    } catch (e) {
-        out.innerHTML = `<div class="error">${e}</div>`;
+        ["Masculine","Feminine"].forEach((g,i)=>{
+            let rows=[]; const base=baseForm(root,i===1,'past');
+            for(let p in PRONOUNS){
+                if((g==='Masculine'&&p==='She')||(g==='Feminine'&&p==='He')) rows.push([p,'']);
+                else rows.push([p,p==='I'?base:PRONOUNS[p]+base]);
+            }
+            out.innerHTML+=buildTable(`Past (${g})`,rows);
+        });
+
+        let rows=[]; const fbase=baseForm(root,false,'future');
+        for(let p in PRONOUNS) rows.push([p,PRONOUNS[p]+fbase]);
+        out.innerHTML+=buildTable("Future",rows);
+
+    } catch(e){ out.innerHTML=`<div class="error">${e}</div>`; }
+}
+
+// Random verb generator (C1 a C2 a (C3 optional))
+function randomVerb(){
+    const consonants="bcdfghjklmnpqrstvwxyz";
+    const vowels="a"; // Fixed pattern
+    let C1=consonants[Math.floor(Math.random()*consonants.length)];
+    let C2=consonants[Math.floor(Math.random()*consonants.length)];
+    let verb=C1+'a'+C2+'a';
+    if(Math.random()<0.5){ // optional C3
+        let C3=consonants[Math.floor(Math.random()*consonants.length)];
+        verb+=C3;
     }
+    document.getElementById("verbInput").value=verb;
 }
 
-function toggleMode() {
-    document.body.classList.toggle("dark");
-}
-
-// Register service worker for offline
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-    .then(() => console.log('Service Worker Registered'))
-    .catch(() => console.log('Service Worker Registration Failed'));
-}
+document.getElementById("conjBtn").addEventListener("click", conjugateVerb);
+document.getElementById("verbInput").addEventListener("keydown",e=>{if(e.key==='Enter') conjugateVerb();});
+document.getElementById("randomBtn").addEventListener("click", randomVerb);
 </script>
-
 </body>
 </html>
